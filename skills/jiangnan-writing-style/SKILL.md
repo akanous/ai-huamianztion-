@@ -144,12 +144,11 @@ tags: [writing, jiangnan, chinese-literature, narrative, humanizer, anti-ai-slop
 
 完成初稿后，逐项扫描以下AI痕迹。这是**必须执行**的步骤，不可跳过。
 
-也可运行验证脚本一键扫描：
+也可运行验证脚本一键扫描（在技能目录下执行）：
 ```bash
-python <skill-dir>/scripts/validate_ai_patterns.py <章节文本文件>
+python scripts/validate_ai_patterns.py <章节文本文件>
 ```
-脚本会自动统计字数、破折号、虚词、AI句式，并对照限制输出质检报告。
-需要将章节全文保存为纯文本文件后传入。
+脚本会自动统计字数、破折号、虚词、AI句式、极短叙事段，并对照限制输出质检报告。
 
 ### AI模式中文自查表
 
@@ -204,14 +203,14 @@ from docx.oxml import OxmlElement
 
 doc = Document()
 
-# 页面设置（A5文库本尺寸）
+# 页面设置（A4）
 section = doc.sections[0]
-section.page_width = Cm(14.8)
-section.page_height = Cm(21.0)
-section.top_margin = Cm(2.5)
-section.bottom_margin = Cm(2.5)
-section.left_margin = Cm(2.8)
-section.right_margin = Cm(2.8)
+section.page_width = Cm(21.0)
+section.page_height = Cm(29.7)
+section.top_margin = Cm(2.54)
+section.bottom_margin = Cm(2.54)
+section.left_margin = Cm(3.17)
+section.right_margin = Cm(3.17)
 
 # 全局字体：宋体小四(12pt)
 style = doc.styles['Normal']
