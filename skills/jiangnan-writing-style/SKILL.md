@@ -1,6 +1,6 @@
 ---
 name: jiangnan-writing-style
-version: "1.0.0"
+version: "1.1.0"
 description: >
   融合江南（杨治）叙事技法 + 去AI写作痕迹（humanizer）的中文小说写作技能。
   按叙事协议框架创作具有少年感、悲壮热血、物哀之美的小说章节，
@@ -113,29 +113,43 @@ tags: [writing, jiangnan, chinese-literature, narrative, humanizer, anti-ai-slop
 - **删除日文假名注音**（如 あさば つかさ 全部清除）
 - **专有名词中的日文汉字需转简体**
 - **中文标点使用全角**（，。！？——……）
+- **对话使用中文双引号** `""`（即 `\u201c` 和 `\u201d`），**不得使用日文引号** `「」`
+- **角色名使用全称**：首次提及及所有叙述中均使用完整姓名（如「浅羽司」「早川真唯」），不得只称名不称姓（如「司」「真唯」）
+- **无英文/日文专名**：文中不得出现英文或日文名称，怪物/地名等全部使用中文译名（如「Teke Teke」→「无足女」）
 
 ### 3b. 句式规范（防AI痕迹）
 
-- **破折号使用上限**：一章不超过3个「——」。能用句号断句就别用破折号
-- **比喻节制**：同一段不超过1个「像……（一样）」。保留最有力的那个
-- **「不是……是……」句型上限**：全篇不超过2次
+- **白描优先，比喻节制**：能用直接描述解决的问题不要用比喻。写「走廊尽头漫过来一股压迫感，空气像变稠了，贴在皮肤上有点黏」优于「像暴风雨到来之前那种沉闷的低气压」。叙事段优先使用白描（具体动作、环境细节、感官描写），比喻只在对读者理解至关重要的地方使用（如怪物首次登场的视觉冲击）。同一段不超过1个「像……（一样）」。「像是」「仿佛」「似乎」等虚拟词不构成有效比喻，直接删除或用实词替代。少用比喻本身也是去AI痕迹的手段——AI喜欢堆比喻，人写作更多依赖白描。
+- **破折号使用上限**：叙事破折号一章不超过3个。对话中的破折号（如「那个——」「喂——！」等表示拖长或中断的）不计入限制。能用句号断句就别用破折号
+- **「不是……是……」句型上限**：全篇不超过2次。仅限AI模式「不是X。是Y」/「不是X，是Y」的平行结构。简单否定（如「不是心跳」「不是缺不缺的问题」）不在此限
 - **对话标签精简**：上下文能看出谁在说话就不加「他说」「她说」
 - **虚词控制**：删掉多余的「大约」「像是」「仿佛」「似乎」
-- **节奏变化**：强制插入1-2个极短段落（1-3字成段）打破均匀节奏
+- **节奏变化**：全章穿插1-2个极短段（1-3字）作为刻意节奏变化即可，**不可滥用**。以下情况不应独立成段：
+  - 单纯的陈述句（「眼睛是蓝色的。」「客厅里亮着灯。」「沉默落了下来。」）
+  - 连词或过渡短语（「前后十秒。」）
+  - 可以自然合并到上下文的短句（「但他不会认错。」「真唯没有说话。」）
+  极短段只在确实需要一击式的节奏冲击时使用（如怪物登场、关键台词）。对话中的简短回应（「嗯。」「结界呢？」「不会。」）是正常的对话节奏，不受此限。
 - **「然后」「接着」等连接词**：一章不超过3次，场景切换用留白代替过渡词
 
-### 3c. 字体规范
+### 3c. 格式规范
 
-- 所有中文正文使用**宋体（SimSun）**，字号10.5pt（五号）
+- 标题：**宋体小二（18pt）**，居中，段前段后空一行，固定值18磅行距
+- 正文：**宋体小四（12pt）**，两端对齐，首行缩进2字符（约480twips），固定值18磅行距
 - 不使用游明朝（Yu Mincho）、MS Mincho等日文字体
-- 标题：宋体18pt加粗居中
-- 行距1.2倍，首行缩进0.75cm
+- 文中不得出现"第一章 灵压"等章节标题作为正文段落
 
 ---
 
 ## Step 4: 自我检视（去AI痕迹扫描）
 
 完成初稿后，逐项扫描以下AI痕迹。这是**必须执行**的步骤，不可跳过。
+
+也可运行验证脚本一键扫描：
+```bash
+python <skill-dir>/scripts/validate_ai_patterns.py <章节文本文件>
+```
+脚本会自动统计字数、破折号、虚词、AI句式，并对照限制输出质检报告。
+需要将章节全文保存为纯文本文件后传入。
 
 ### AI模式中文自查表
 
@@ -144,7 +158,7 @@ tags: [writing, jiangnan, chinese-literature, narrative, humanizer, anti-ai-slop
 | 编号 | AI痕迹 | 修复方法 |
 |------|--------|----------|
 | 1 | 破折号超过3个 | 换成句号或自然停顿 |
-| 2 | 比喻堆叠（同段2+个「像」） | 砍到1个 |
+| 1 | 白描不足 / 比喻堆叠 | 能用白描解决的问题不用比喻，同段不超过1个「像」 |
 | 3 | 「不是……是……」重复出现 | 只留1处 |
 | 4 | 句式匀速无变化 | 插短句 |
 | 5 | 对话标签过密 | 去掉一半 |
@@ -179,13 +193,14 @@ tags: [writing, jiangnan, chinese-literature, narrative, humanizer, anti-ai-slop
 pip install python-docx
 ```
 
-### Python生成脚本模板
+### Python生成脚本模板（宋体小四 + 固定18磅行距）
 
 ```python
 from docx import Document
 from docx.shared import Pt, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 
 doc = Document()
 
@@ -198,61 +213,71 @@ section.bottom_margin = Cm(2.5)
 section.left_margin = Cm(2.8)
 section.right_margin = Cm(2.8)
 
-# 全局字体：宋体 + 简体中文
+# 全局字体：宋体小四(12pt)
 style = doc.styles['Normal']
 style.font.name = '宋体'
-style.font.size = Pt(11)
-style.paragraph_format.line_spacing = 1.2
-style.paragraph_format.space_after = Pt(6)
-rpr = style.element.rPr
-rFonts = rpr.find(qn('w:rFonts'))
-if rFonts is None:
-    rFonts = style.element.rPr.makeelement(qn('w:rFonts'), {})
-    rpr.append(rFonts)
-rFonts.set(qn('w:eastAsia'), '宋体')
-rFonts.set(qn('w:ascii'), '宋体')
-rFonts.set(qn('w:hAnsi'), '宋体')
+style.font.size = Pt(12)
+for attr in ['w:eastAsia', 'w:ascii', 'w:hAnsi']:
+    style.element.rPr.rFonts.set(qn(attr), '宋体')
 
-# 标题
+# 标题：宋体小二(18pt)居中，段前段后空一行，固定值18磅行距
 title = doc.add_paragraph()
 title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+title.paragraph_format.space_before = Pt(18)
+title.paragraph_format.space_after = Pt(18)
+pPr = title._element.get_or_add_pPr()
+sp = pPr.find(qn('w:spacing'))
+if sp is None:
+    sp = OxmlElement('w:spacing')
+    pPr.append(sp)
+sp.set(qn('w:line'), '360')
+sp.set(qn('w:lineRule'), 'exact')
+
 run = title.add_run('第一章  灵压')
 run.font.size = Pt(18)
-run.font.bold = True
+run.font.bold = False  # 小二不加粗
 run.font.name = '宋体'
-run.element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
-run.element.rPr.rFonts.set(qn('w:ascii'), '宋体')
-run.element.rPr.rFonts.set(qn('w:hAnsi'), '宋体')
-title.paragraph_format.space_after = Pt(20)
+for attr in ['w:eastAsia', 'w:ascii', 'w:hAnsi']:
+    run.element.rPr.rFonts.set(qn(attr), '宋体')
 
-# 段落辅助函数
-def add_para(text, indent=True):
+# 段落辅助函数：宋体小四、两端对齐、首行缩进2字符、固定18磅行距
+def add_para(text):
     p = doc.add_paragraph()
-    p.paragraph_format.first_line_indent = Cm(0.75) if indent else Cm(0)
-    p.paragraph_format.line_spacing = 1.2
-    p.paragraph_format.space_after = Pt(4)
+    p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    pPr = p._element.get_or_add_pPr()
+    ind = pPr.find(qn('w:ind'))
+    if ind is None:
+        ind = OxmlElement('w:ind')
+        pPr.append(ind)
+    ind.set(qn('w:firstLine'), '480')  # 2字符缩进
+    sp = pPr.find(qn('w:spacing'))
+    if sp is None:
+        sp = OxmlElement('w:spacing')
+        pPr.append(sp)
+    sp.set(qn('w:line'), '360')  # 固定18磅
+    sp.set(qn('w:lineRule'), 'exact')
     run = p.add_run(text)
-    run.font.size = Pt(10.5)
+    run.font.size = Pt(12)
     run.font.name = '宋体'
-    run.element.rPr.rFonts.set(qn('w:eastAsia'), '宋体')
-    run.element.rPr.rFonts.set(qn('w:ascii'), '宋体')
-    run.element.rPr.rFonts.set(qn('w:hAnsi'), '宋体')
+    for attr in ['w:eastAsia', 'w:ascii', 'w:hAnsi']:
+        run.element.rPr.rFonts.set(qn(attr), '宋体')
     return p
 
-# 正文（将章节文本逐段加入）
+# 正文段落（依次加入）
 texts = [
     "第一章的正文段落……",
     "每个字符串是一个段落。",
 ]
 for t in texts:
-    add_para(t)
+    if t.strip():
+        add_para(t)
 
 # 保存
 doc.save(r"C:\Users\Admin\Desktop\jn\第一章_灵压.docx")
 print("文档已保存")
 ```
 
-### 字数统计
+### 字数统计与目标校验
 
 ```python
 import re
@@ -260,6 +285,16 @@ full_text = "\n".join(texts)
 cjk = len(re.findall(r'[\u4e00-\u9fff]', full_text))
 print(f"汉字字数: {cjk}")
 ```
+
+**字数目标校验**：确认 cjk 在目标值的 ±10% 范围内。
+- 如果字数偏低：**增加具体的画面细节和感官描写**（光线变化、触感、气味、温度），不要填塞虚词或空泛的修饰
+- 如果字数偏高：优先砍掉多余的场景铺垫和重复说明，保留最有力的画面和对话
+
+运行验证脚本（需要先安装 python-docx 并将章节文本保存为纯文本文件）：
+```bash
+python scripts/validate_ai_patterns.py 章节文本.txt
+```
+脚本会自动统计字数、破折号、虚词、AI句式，并对照限制输出质检报告。
 
 ### 交付前检查
 
@@ -285,6 +320,7 @@ print(f"汉字字数: {cjk}")
 - [ ] **无直接情绪词**：没有「开心」「难过」「感动」——用画面让读者自己感受
 
 ### AI痕迹自检
+- [ ] **白描优先**：叙事段优先用白描而非比喻，不堆叠「像……」
 - [ ] **无破折号过度**（≤3个/章）
 - [ ] **无不必要比喻堆叠**
 - [ ] **无双重否定/「不是……是……」句式超2次**
@@ -308,6 +344,16 @@ print(f"汉字字数: {cjk}")
 ✅ 擅长：短篇-中篇情感叙事（100~10000字）、人物出场/情感戏/告别场景、润色已有文字、去AI痕迹
 
 ⚠️ 不擅长：长篇架构（>2万字）、纯喜剧、学术/公文/新闻、女性角色第一人称
+
+---
+
+## 用户内容隐私提醒
+
+当把写作成果推送到公开仓库或分享给他人时：
+1. **不要包含用户的未发表作品**（设定文档、章节正文、角色表等）作为示例
+2. 公开示例应使用虚构的、没有实际作者归属的模板内容
+3. README 中不要提及具体作品名称、角色名或情节细节
+4. 如果用户要求将技能推送到公开仓库，只提交技能框架文件（SKILL.md 和参考文件），**不附带任何用户创作内容**
 
 ---
 

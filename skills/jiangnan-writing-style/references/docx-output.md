@@ -34,20 +34,16 @@ section.right_margin = Cm(2.8)
 ## 全局字体设置（宋体）
 
 ```python
+from docx.shared import Pt, Cm
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+
 style = doc.styles['Normal']
 style.font.name = '宋体'
-style.font.size = Pt(11)
-style.paragraph_format.line_spacing = 1.2
-style.paragraph_format.space_after = Pt(6)
-rpr = style.element.rPr
-rFonts = rpr.find(qn('w:rFonts'))
-if rFonts is None:
-    rFonts = style.element.rPr.makeelement(qn('w:rFonts'), {})
-    rpr.append(rFonts)
-rFonts.set(qn('w:eastAsia'), '宋体')
-rFonts.set(qn('w:ascii'), '宋体')
-rFonts.set(qn('w:hAnsi'), '宋体')
-```
+style.font.size = Pt(12)  # 小四
+for attr in ['w:eastAsia', 'w:ascii', 'w:hAnsi']:
+    style.element.rPr.rFonts.set(qn(attr), '宋体')
+
 
 ## 段落辅助函数
 
@@ -84,6 +80,7 @@ title.paragraph_format.space_after = Pt(20)
 - 全文使用简体中文，不出现日文汉字或繁体字
 - 专有名词中的日文汉字需转简体：霊→灵、圧→压、鷹→鹰、歳→岁、熒→荧
 - 日文假名注音删除，仅保留简体中文部分
+- 对话使用中文双引号 `""`，不得使用日文引号 `「」`
 - 字体必须为宋体，不可使用游明朝等日文字体
 
 ## 编码细节

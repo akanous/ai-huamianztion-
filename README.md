@@ -28,9 +28,14 @@
 
 ### 新增内容
 
-- 简体中文 + 宋体字体的排版规范
+- 简体中文 + 宋体字体的排版规范（标题小二18pt、正文小四12pt、固定18磅行距）
 - Word 文档生成代码模板（python-docx）
 - 交付前六步质检清单
+- 白描优先、比喻节制的句式规范
+- 极短叙事段合并规则（禁止无意义单句独立成段）
+- 无英文/日文专名要求（怪物名使用中文译名）
+- 角色全称规范（不使用单名）
+- 自动质检脚本：`scripts/validate_ai_patterns.py`
 - 参考文件：`references/docx-output.md` 和 `references/humanizer-after-check.md`
 
 ## 文件结构
@@ -38,6 +43,8 @@
 ```
 skills/jiangnan-writing-style/
 ├── SKILL.md                          # 主技能文件
+├── scripts/
+│   └── validate_ai_patterns.py       # AI痕迹自动质检脚本
 ├── references/
 │   ├── docx-output.md                # Word输出代码模板
 │   └── humanizer-after-check.md      # AI痕迹扫描速查表
