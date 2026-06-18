@@ -1,0 +1,10 @@
+# Temp/lock files
+~$*.docx
+*.docx
+*.pyc
+__pycache__/
+# Root-level duplicates (kept in skills/ directory)
+/设定加大纲.txt
+/第一章_灵压.docx
+/第一章_霊圧_修改版.docx
+chapter1.py
